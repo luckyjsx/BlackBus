@@ -1,7 +1,7 @@
 // theme.ts
 import { useColorScheme } from 'react-native';
 
-const LightTheme = {
+export const LightTheme = {
   background: '#ffffff',
   text: '#000000',
 };
