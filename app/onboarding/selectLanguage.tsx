@@ -1,12 +1,12 @@
 import CustomBottomSheet, { ReusableBottomSheetRef } from '@/components/common/CustomBottomSheet';
 import CustomPressable from '@/components/common/CustomPressable';
 import ContentContainer from '@/components/content-container/ContentContainer';
+import { ThemedText } from '@/components/themed/ThemedText';
+import { ThemedView } from '@/components/themed/ThemedView';
 import { setItem } from '@/lib/storage';
-import { LightTheme } from '@/lib/theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Entypo from '@expo/vector-icons/Entypo';
 import React, { useMemo, useRef } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, TouchableOpacity } from 'react-native';
 
 const selectLanguage = () => {
   const setOnboarded = async () => {
@@ -27,33 +27,31 @@ const selectLanguage = () => {
   };
   return (
     <ContentContainer style={{ borderWidth: 1, borderColor: 'red' }}>
-      <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+      <ThemedView style={{ justifyContent: 'center', alignItems: 'center', }}>
         <MaterialCommunityIcons name="bus-side" size={100} color="black" />
-        {/* <Text style={{ fontSize: 24, fontWeight: 'bold' }}>
+        {/* <ThemedText style={{ fontSize: 24, fontWeight: 'bold' }}>
           Black Bus
-        </Text> */}
-      </View>
+        </ThemedText> */}
+      </ThemedView>
 
-      <View >
-        <Text>
+      <ThemedView >
+        <ThemedText>
           Country
-        </Text>
+        </ThemedText>
         <CustomPressable
           onPress={openSheet}
           text="India"
           image={require('@/assets/images/flags/india.png')}
-          textStyle={styles.text}
-          icon={<Entypo name="chevron-small-right" size={24} color="black" />}
         />
-      </View>
+      </ThemedView>
 
       <CustomBottomSheet snapPoints={snapPoints} ref={bottomSheetRef}>
-        <Text style={{ fontSize: 18 }}>Hello from Bottom Sheet</Text>
+        <ThemedText style={{ fontSize: 18 }}>Hello from Bottom Sheet</ThemedText>
         <Button title="Close" onPress={closeSheet} />
       </CustomBottomSheet>
 
       <TouchableOpacity onPress={setOnboarded}>
-        <Text>Welcome to the Onboarding Screen 1</Text>
+        <ThemedText>Welcome to the Onboarding Screen 1</ThemedText>
       </TouchableOpacity>
     </ContentContainer>
   )
@@ -67,18 +65,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-   icon:{
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor:LightTheme.background
-  },
-  text:{
-    fontSize: 18,
-    color: LightTheme.text,
-  },
-  countryPressable: {
-    backgroundColor: LightTheme.background,
-  }
 });
 
 export default selectLanguage
