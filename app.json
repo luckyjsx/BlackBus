@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "BlackBus",
+    "backgroundColor":"#030014",
     "slug": "BlackBus",
     "version": "1.0.0",
     "orientation": "portrait",

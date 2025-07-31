@@ -1,28 +1,54 @@
 // theme.ts
-import { useColorScheme } from 'react-native';
+import { useColorScheme } from "react-native";
+import {
+  MD3Theme,
+  MD3DarkTheme as PaperDarkTheme,
+  MD3LightTheme as PaperLightTheme,
+} from "react-native-paper";
 
-export const CommonColors = {
-  white: '#ffffff',
-  black: '#000000',
-  pink: '#B9375D',
+type CustomTheme = MD3Theme & {
+  background: string;
+  text: string;
+  pressableBackground: string;
+  rippleEffect: string;
+  pink: string;
+  lightSilver: string;
+  placeholder?: string;
 };
 
-const LightTheme = {
-  ...CommonColors,
-  background: '#ffffff',
-  text: '#000000',
-  pressableBackground: '#D1D5DB',
-  rippleEffect: '#EEEDEB',
+export const lightTheme: CustomTheme = {
+  ...PaperLightTheme,
+  background: "#ffffff",
+  text: "#000000",
+  pressableBackground: "#D1D5DB",
+  rippleEffect: "#EEEDEB",
+  pink: "#B9375D",
+  lightSilver: "#D1D5DB",
+  placeholder: '#ADAFBB',
+  colors: {
+    ...PaperLightTheme.colors,
+    background: "#ffffff",
+    onBackground: "#000000",
+  },
 };
 
-const DarkTheme = {
-  ...CommonColors,
-  background: '#030014',
-  text: '#ffffff',
-  rippleEffect: '#1F1F1F',
+export const darkTheme: CustomTheme = {
+  ...PaperDarkTheme,
+  background: "#030014",
+  text: "#ffffff",
+  pressableBackground: "#1F1F1F",
+  rippleEffect: "#1F1F1F",
+  pink: "#B9375D",
+  lightSilver: "#D1D5DB",
+  placeholder: "#ADAFBB",
+  colors: {
+    ...PaperDarkTheme.colors,
+    background: "#030014",
+    onBackground: "#ffffff",
+  },
 };
 
-export function useTheme() {
+export function useTheme(): CustomTheme {
   const colorScheme = useColorScheme();
-  return colorScheme === 'dark' ? DarkTheme : LightTheme;
+  return colorScheme === "dark" ? darkTheme : lightTheme;
 }

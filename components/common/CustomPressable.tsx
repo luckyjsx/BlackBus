@@ -1,6 +1,7 @@
 import { ThemedText } from '@/components/themed/ThemedText';
 import { useTheme } from '@/lib/theme';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
+import { ThemedView } from '../themed/ThemedView';
 
 type CustomPressableProps = {
     onPress: () => void;
@@ -14,7 +15,7 @@ type CustomPressableProps = {
 const CustomPressable = ({ onPress, style, text, image, icon, isActive }: CustomPressableProps) => {
     const theme = useTheme();
     return (
-        <View style={[styles.wrapper, style, { backgroundColor: theme.background, borderColor: isActive ? '#B9375D' : '#D1D5DB' }]}>
+        <ThemedView style={[styles.wrapper, style, { backgroundColor: theme.background, borderColor: isActive ? theme.pink : theme.lightSilver }]}>
             <Pressable
                 onPress={onPress}
                 android_ripple={{ color: theme.rippleEffect }}
@@ -25,7 +26,7 @@ const CustomPressable = ({ onPress, style, text, image, icon, isActive }: Custom
                     {icon}
                 </View>
             </Pressable>
-        </View>
+        </ThemedView>
     );
 };
 
