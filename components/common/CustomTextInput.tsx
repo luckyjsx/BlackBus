@@ -15,6 +15,7 @@ export type CustomTextInputProps = TextInputProps & {
   errorMsg?: string;
   labelBackgroundColor?: string;
   textboxBackgroundColor?: string;
+  labelStyle?: object
 };
 
 const CustomTextInput = ({
@@ -27,6 +28,7 @@ const CustomTextInput = ({
   errorMsg,
   labelBackgroundColor,
   textboxBackgroundColor,
+  labelStyle,
   ...rest
 }: CustomTextInputProps) => {
   const theme = useTheme();
@@ -37,7 +39,7 @@ const CustomTextInput = ({
     <ThemedView>
       {label && (
         <ThemedView style={styles.labelContainer}>
-                <ThemedText style={styles.label}>
+                <ThemedText style={[styles.label,labelStyle]}>
                     {label}
                 </ThemedText>
         </ThemedView>
@@ -124,6 +126,7 @@ export const styles = StyleSheet.create({
   inputContainer: {
     position: "relative",
     gap: 8,
+    marginBottom:20
   },
   underline: {
     display: "none",

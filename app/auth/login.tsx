@@ -1,24 +1,32 @@
+// screens/Login.tsx
 import CustomBottomSheet, {
   ReusableBottomSheetRef,
 } from "@/components/common/CustomBottomSheet";
 import CustomButton from "@/components/common/CustomButton";
 import CustomTextInput from "@/components/common/CustomTextInput";
-import { useTheme } from "@/lib/theme";
+import Separator from "@/components/common/Seprator";
+import { darkTheme, useTheme } from "@/lib/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFocusEffect } from "expo-router";
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { ImageBackground, Keyboard, StatusBar, StyleSheet } from "react-native";
+import {
+  ImageBackground,
+  Keyboard,
+  StatusBar,
+  StyleSheet,
+  useColorScheme
+} from "react-native";
 import { z } from "zod";
 
 const loginSchema = z.object({
-  email: z.email({ message: "Invalid email address" }),
+  email: z.string().email({ message: "Invalid email address" }),
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters long" })
     .max(16),
 });
-zodResolver;
 
 const bouncySpring = {
   damping: 14,
@@ -32,12 +40,11 @@ const bouncySpring = {
 const Login = () => {
   const theme = useTheme();
   const bottomSheetRef = useRef<ReusableBottomSheetRef>(null);
-  const openSheet = () => {
-    bottomSheetRef.current?.expand();
-  };
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const colorScheme = useColorScheme();  
 
-  const snapPoints = useMemo(() => ["40%", "100%"], []);
-
+  const snapPoints = useMemo(() => ["50%", "100%"], []);
+  const hasAutoFlowRun = useRef(false);
   const {
     control,
     handleSubmit,
@@ -52,30 +59,50 @@ const Login = () => {
 
   useFocusEffect(
     useCallback(() => {
-      const openTimeout = setTimeout(() => {
-        bottomSheetRef.current?.snapToIndex(1);
-        const closeTimeout = setTimeout(() => {
-          bottomSheetRef.current?.snapToIndex(0);
-        }, 1200);
-        return () => clearTimeout(closeTimeout);
-      }, 100);
-      return () => clearTimeout(openTimeout);
+      if (hasAutoFlowRun.current) {
+        return;
+      }
+      hasAutoFlowRun.current = true;
+
+      // const openTimeout = setTimeout(() => {
+      //   bottomSheetRef.current?.snapToIndex(1);
+      // }, 100);
+
+      // const closeTimeout = setTimeout(() => {
+      //   bottomSheetRef.current?.snapToIndex(0);
+      // }, 1300);
+
+      // return () => {
+      //   clearTimeout(openTimeout);
+      //   clearTimeout(closeTimeout);
+      // };
     }, [])
   );
 
-  const onFocusInput = () => bottomSheetRef.current?.expand();
+
+  const onFocusInput = () => {
+    bottomSheetRef.current?.expand();
+  }
+
   return (
     <>
-      <StatusBar barStyle={'dark-content'}/>
+      <StatusBar
+        barStyle={
+          colorScheme === "dark"
+            ? currentIndex === 0
+              ? "dark-content"
+              : "light-content"
+            : "dark-content"
+        }
+      />
+
       <ImageBackground
         source={{
           uri: "https://thumbs.dreamstime.com/z/indian-family-india-cartoon-indian-family-ethnic-india-wearing-traditional-hindu-clothes-taj-mahal-buildings-vector-155819081.jpg",
         }}
         resizeMode="cover"
         style={styles.imageBackground}
-      ></ImageBackground>
-    {/* <ContentContainer style={{ flex: 1, backgroundColor: theme.background }}>
-    </ContentContainer> */}
+      />
       <CustomBottomSheet
         snapPoints={snapPoints}
         ref={bottomSheetRef}
@@ -84,8 +111,10 @@ const Login = () => {
         outsidePresBehaviour={"none"}
         animationConfigs={bouncySpring}
         onChange={(index: number) => {
-          if (index === 0) Keyboard.dismiss(); // collapse = hide keyboard
+          if (index === 0) Keyboard.dismiss();
+          setCurrentIndex(index);
         }}
+        hideIndicator={currentIndex === 1} // animate based on index
         showBackDrop={false}
       >
         <Controller
@@ -101,6 +130,7 @@ const Login = () => {
               placeholder="Enter Your Email"
               errorMsg={errors.email?.message}
               onFocus={onFocusInput}
+              labelStyle={{marginTop:20}}
             />
           )}
         />
@@ -122,6 +152,10 @@ const Login = () => {
           )}
         />
         <CustomButton text="Login" onPress={handleSubmit(onSubmit)} />
+
+        <Separator  />
+
+        <CustomButton onPress={()=>console.log("hello")} text="Sign in with Google" icon={<Ionicons name="logo-google" size={20} color={darkTheme.text} />}/>
       </CustomBottomSheet>
     </>
   );
@@ -131,8 +165,21 @@ export default Login;
 
 const styles = StyleSheet.create({
   imageBackground: {
-    width: 800,
-    height: 600,
-    // justifyContent: "flex-end", // or 'center' depending on layout
+    width: "100%",
+    height: "100%",
+  },
+  separatorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  line: {
+    flex: 1,
+    height: 1,
+  },
+  separatorText: {
+    marginHorizontal: 16,
+    fontSize: 14,
+    fontWeight: '500',
   },
 });

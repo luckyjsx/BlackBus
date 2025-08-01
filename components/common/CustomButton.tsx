@@ -1,22 +1,38 @@
 import { darkTheme } from '@/lib/theme';
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { ThemedText } from '../themed/ThemedText';
 
 type buttonProps = {
   onPress: () => void;
-  text: string,
+  text: string;
+  icon?: React.ReactNode; // Optional icon prop
+  iconPosition?: 'left' | 'right'; // Icon position (default: left)
 }
 
-const CustomButton = ({ onPress, text }: buttonProps) => {
+const CustomButton = ({ onPress, text, icon, iconPosition = 'left' }: buttonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={styles.confirmButton}
     >
-      <ThemedText style={styles.confirmButtonText}>
-        {text}
-      </ThemedText>
+      <View style={styles.buttonContent}>
+        {icon && iconPosition === 'left' && (
+          <View style={styles.iconContainer}>
+            {icon}
+          </View>
+        )}
+        
+        <ThemedText style={styles.confirmButtonText}>
+          {text}
+        </ThemedText>
+        
+        {icon && iconPosition === 'right' && (
+          <View style={styles.iconContainer}>
+            {icon}
+          </View>
+        )}
+      </View>
     </TouchableOpacity>
   )
 }
@@ -32,7 +48,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 16,
   },
-
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconContainer: {
+    marginRight: 8, // Space between icon and text (for left icon)
+    marginLeft: 8,  // Space between text and icon (for right icon)
+  },
   confirmButtonText: {
     color: darkTheme.text,
     fontSize: 16,
