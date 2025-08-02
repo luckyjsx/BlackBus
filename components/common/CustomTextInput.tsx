@@ -39,39 +39,39 @@ const CustomTextInput = ({
     <ThemedView>
       {label && (
         <ThemedView style={styles.labelContainer}>
-                <ThemedText style={[styles.label,labelStyle]}>
-                    {label}
-                </ThemedText>
+          <ThemedText style={[styles.label, labelStyle]}>
+            {label}
+          </ThemedText>
         </ThemedView>
       )}
 
       <ThemedView style={styles.inputContainer}>
         <TextInput
-            style={[
-                {
-                    color:theme.text,
-                    backgroundColor:theme.background
-                },
-                styles.textInput,
-                styles.inputStyle,
-                bordered && {borderColor:theme.lightSilver},
-                isFocused && {borderColor:theme.pink},
-                style
-            ]}
-            cursorColor={theme.lightSilver}
-            selectionColor={theme.lightSilver}
-            contentStyle={styles.textInput}
-            placeholderTextColor={theme.placeholder}
-            underlineColor="transparent"
-            underlineStyle={styles.underline}
-            onSubmitEditing={Keyboard.dismiss}
-            onFocus={()=>setIsFocused(true)}
-            onBlur={()=>{
-              setIsFocused(false);
-              onBlur?.();
-            }}
-            secureTextEntry={secureTextEntry && isPasswordVisible}
-            right={
+          style={[
+            {
+              color: theme.text,
+              backgroundColor: theme.background
+            },
+            styles.textInput,
+            styles.inputStyle,
+            bordered && { borderColor: theme.lightSilver },
+            isFocused && { borderColor: theme.pink },
+            style
+          ]}
+          cursorColor={theme.lightSilver}
+          selectionColor={theme.lightSilver}
+          contentStyle={styles.textInput}
+          placeholderTextColor={theme.placeholder}
+          underlineColor="transparent"
+          underlineStyle={styles.underline}
+          onSubmitEditing={Keyboard.dismiss}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => {
+            setIsFocused(false);
+            onBlur?.();
+          }}
+          secureTextEntry={secureTextEntry && !isPasswordVisible}
+          right={
             secureTextEntry && (
               <TextInput.Icon
                 icon={() => (
@@ -88,14 +88,15 @@ const CustomTextInput = ({
           disabled={disabled}
           {...rest}
         />
-        {
-          errorMsg && (
-            <ThemedText style={styles.errorText}
-            >
+        
+        {/* Fixed height container for error messages */}
+        <ThemedView style={styles.errorContainer}>
+          {errorMsg && (
+            <ThemedText style={styles.errorText}>
               {errorMsg}
             </ThemedText>
-          )
-        }
+          )}
+        </ThemedView>
       </ThemedView>
     </ThemedView>
   );
@@ -118,15 +119,14 @@ export const styles = StyleSheet.create({
   },
   label: {
     fontSize: 20,
-    fontWeight:"600"
+    fontWeight: "600"
   },
   labelIcon: {
     marginBottom: 4,
   },
   inputContainer: {
     position: "relative",
-    gap: 8,
-    marginBottom:20
+    marginBottom: 10
   },
   underline: {
     display: "none",
@@ -150,8 +150,15 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "transparent",
   },
+  errorContainer: {
+    height: 22, // Fixed height to prevent layout shifts
+    justifyContent: 'center',
+    paddingTop: 3,
+  },
   errorText: {
     paddingLeft: 12,
+    fontSize: 13,
+    color: '#ff5555', // or use theme.error if available
   },
   icon: {
     height: 24,

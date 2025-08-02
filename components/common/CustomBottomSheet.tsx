@@ -113,8 +113,8 @@ const CustomBottomSheet = forwardRef<ReusableBottomSheetRef, ReusableBottomSheet
                 backdropComponent={showBackDrop ? renderBackdrop : undefined}
                 backgroundStyle={{
                     backgroundColor: theme.background,
-                    borderTopLeftRadius: 0,
-                    borderTopRightRadius: 0,
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
                 }}
                 handleComponent={() => (
                     <Animated.View

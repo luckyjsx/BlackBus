@@ -6,8 +6,8 @@ import { ThemedText } from '../themed/ThemedText';
 type buttonProps = {
   onPress: () => void;
   text: string;
-  icon?: React.ReactNode; // Optional icon prop
-  iconPosition?: 'left' | 'right'; // Icon position (default: left)
+  icon?: React.ReactNode; 
+  iconPosition?: 'left' | 'right'; 
 }
 
 const CustomButton = ({ onPress, text, icon, iconPosition = 'left' }: buttonProps) => {
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 25,
     alignItems: 'center',
-    marginTop: 16,
   },
   buttonContent: {
     flexDirection: 'row',
