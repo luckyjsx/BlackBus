@@ -10,6 +10,7 @@ import { ThemedView } from "@/components/themed/ThemedView";
 import { darkTheme, useTheme } from "@/lib/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "expo-router";
 import React, {
   useCallback,
   useEffect,
@@ -174,7 +175,6 @@ const Login = () => {
     },
     [xButtonOpacity, xButtonScale, xButtonRotate]
   );
-
 
   const AnimatedPaginationDot = ({ index }: { index: number }) => {
     const animatedStyle = useAnimatedStyle(() => {
@@ -362,71 +362,87 @@ const Login = () => {
           </Animated.View>
 
           {/* Form content */}
-          <ThemedView style={{flex:1,justifyContent:"space-between",}}>
+          <ThemedView style={{ flex: 1, justifyContent: "space-between" }}>
             <ThemedView style={styles.formContent}>
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <CustomTextInput
-                  label={"Email"}
-                  bordered
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder="Enter Your Email"
-                  errorMsg={errors.email?.message}
-                  onFocus={onFocusInput}
-                  labelStyle={{ marginTop: 20 }}
-                />
-              )}
-            />
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <CustomTextInput
+                    label={"Email"}
+                    bordered
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Enter Your Email"
+                    errorMsg={errors.email?.message}
+                    onFocus={onFocusInput}
+                    labelStyle={{ marginTop: 20 }}
+                  />
+                )}
+              />
 
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <CustomTextInput
-                  label={"Password"}
-                  bordered
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder="Enter Your Password"
-                  errorMsg={errors.password?.message}
-                  secureTextEntry
-                  onFocus={onFocusInput}
-                />
-              )}
-            />
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <CustomTextInput
+                    label={"Password"}
+                    bordered
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Enter Your Password"
+                    errorMsg={errors.password?.message}
+                    secureTextEntry
+                    onFocus={onFocusInput}
+                  />
+                )}
+              />
 
-            <CustomButton text="Login" onPress={handleSubmit(onSubmit)} />
-            <Separator />
-            <CustomButton
-              onPress={() => console.log("hello")}
-              text="Sign in with Google"
-              icon={
-                <Ionicons name="logo-google" size={20} color={darkTheme.text} />
-              }
-            />
-          </ThemedView>
+              <CustomButton text="Login" onPress={handleSubmit(onSubmit)} />
+              <Separator />
+              <CustomButton
+                onPress={() => console.log("hello")}
+                text="Sign in with Google"
+                icon={
+                  <Ionicons
+                    name="logo-google"
+                    size={20}
+                    color={darkTheme.text}
+                  />
+                }
+              />
+            </ThemedView>
 
             <ThemedView>
-              <TouchableOpacity onPress={handleSkip}>
-                <ThemedText style={[styles.dontHaveAccountText,{color: theme.link}]}>
-                  Don't Have an account? Create one
+              <Link
+                href={"/auth/register"}
+                style={[styles.dontHaveAccountText, { color: theme.link }]}
+              >
+                Don't Have an account? Create one
+              </Link>
+
+              <ThemedView
+                style={[
+                  styles.termsConditionContainer,
+                  { borderTopColor: theme.lightSilver },
+                ]}
+              >
+                <ThemedText
+                  style={[styles.byLoggingText, { color: theme.text }]}
+                >
+                  By 'logging in' I agree to the
                 </ThemedText>
-              </TouchableOpacity>
-              
-            <ThemedView style={[styles.termsConditionContainer,{ borderTopColor:theme.lightSilver}]}>
-              <ThemedText style={[styles.byLoggingText,{color:theme.text}]}>
-                By 'logging in' I agree to the 
-              </ThemedText>
-              <ThemedView style={styles.termsConditionText}>
-                <ThemedText style={[styles.linkText,{color:theme.link}]}>Terms & Conditions</ThemedText>
-                <ThemedText style={[styles.linkText,{color:theme.link}]}>Privacy Policy</ThemedText>
+                <ThemedView style={styles.termsConditionText}>
+                  <ThemedText style={[styles.linkText, { color: theme.link }]}>
+                    Terms & Conditions
+                  </ThemedText>
+                  <ThemedText style={[styles.linkText, { color: theme.link }]}>
+                    Privacy Policy
+                  </ThemedText>
+                </ThemedView>
               </ThemedView>
-            </ThemedView>
             </ThemedView>
           </ThemedView>
         </ThemedView>
@@ -457,13 +473,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "transparent", 
+    backgroundColor: "transparent",
   },
   paginationContainer: {
     flexDirection: "row",
     alignItems: "center",
     gap: 2,
-    backgroundColor: "transparent", 
+    backgroundColor: "transparent",
   },
   activePaginationText: {
     color: "white",
@@ -473,13 +489,13 @@ const styles = StyleSheet.create({
   },
   skipButton: {
     padding: 8,
-    backgroundColor: "transparent", 
+    backgroundColor: "transparent",
   },
   skipText: {
     color: "blue",
     fontSize: 16,
     fontWeight: "500",
-    textDecorationLine:"underline",
+    textDecorationLine: "underline",
   },
   contentContainer: {
     position: "relative",
@@ -496,27 +512,27 @@ const styles = StyleSheet.create({
   },
   dontHaveAccountText: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     fontWeight: "bold",
     textDecorationLine: "underline",
-    marginBottom:10
+    marginBottom: 10,
   },
-  termsConditionContainer:{
-    marginBottom:15,
-    paddingHorizontal:10, 
-    borderTopWidth:1, 
+  termsConditionContainer: {
+    marginBottom: 15,
+    paddingHorizontal: 10,
+    borderTopWidth: 1,
   },
-  byLoggingText:{
-    textAlign:"center", 
-    paddingTop:4
+  byLoggingText: {
+    textAlign: "center",
+    paddingTop: 4,
   },
-  termsConditionText:{
-    flexDirection:"row",
-    justifyContent:"space-between",
-    marginTop:10
+  termsConditionText: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
   },
-  linkText:{
-    fontWeight:"bold", 
-    textDecorationLine:"underline"
-  }
+  linkText: {
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+  },
 });
