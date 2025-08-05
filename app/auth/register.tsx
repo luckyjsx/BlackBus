@@ -4,12 +4,13 @@ import Separator from "@/components/common/Seprator";
 import ContentContainer from "@/components/content-container/ContentContainer";
 import { ThemedView } from "@/components/themed/ThemedView";
 import { darkTheme, useTheme } from "@/lib/theme";
+import { registerUser } from "@/services/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "expo-router";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import z from "zod";
 
 const registerSchema = z.object({
@@ -43,7 +44,18 @@ const Register = () => {
     },
   });
 
-  const onSubmit = (data: RegisterFormData) => {
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      const response = await registerUser(data);
+      if(response.success){
+        Alert.alert("Success",response.message);
+      } else {
+        Alert.alert("Error",response.message);
+      }
+    } catch(error){
+      console.log("Registration error:", error);
+      Alert.alert("Error","Something went wrong. Please try again.");
+    }
     console.log("Form is valid, submitted data:", data);
   };
   return (
