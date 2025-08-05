@@ -8,6 +8,7 @@ import Separator from "@/components/common/Seprator";
 import { ThemedText } from "@/components/themed/ThemedText";
 import { ThemedView } from "@/components/themed/ThemedView";
 import { darkTheme, useTheme } from "@/lib/theme";
+import { loginUser } from "@/services/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "expo-router";
@@ -20,6 +21,7 @@ import React, {
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
+  Alert,
   Dimensions,
   ImageBackground,
   Keyboard,
@@ -128,7 +130,17 @@ const Login = () => {
   });
 
   // Updated onSubmit with proper typing
-  const onSubmit = (data: LoginFormData) => {
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      const response = await loginUser(data);
+      if(response.success){
+        Alert.alert("Successful", response.message);
+        console.log("User:", response.user)
+      }
+    } catch(error) {
+      console.error("Login error:", error);
+      Alert.alert("Error","Invalid credentials or network error.")
+    }
     console.log("Form is valid, submitted data:", data);
   };
 

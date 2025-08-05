@@ -12,6 +12,26 @@ interface RegisterResponse {
     message: string;
 }
 
+
+export interface LoginPayload {
+    email: string;
+    password: string;
+}
+
+interface LoginResponse {
+    success: boolean;
+    token: string;
+    user: {
+        _id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        lastOtpSent: string;
+        __v: number;
+    };
+    message: string;
+}
+
 export async function registerUser(payload: RegisterPayload): Promise<RegisterResponse> {
     const response = await api.post<RegisterResponse>('/auth/register',{
         firstName: payload.firstname,
@@ -19,5 +39,10 @@ export async function registerUser(payload: RegisterPayload): Promise<RegisterRe
         email: payload.email,
         password: payload.password
     });
+    return response.data;
+}
+
+export async function loginUser(payload: LoginPayload): Promise<LoginResponse>{
+    const response = await api.post<LoginResponse>("/auth/login", payload);
     return response.data;
 }
