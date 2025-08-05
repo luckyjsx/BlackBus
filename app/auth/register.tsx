@@ -6,6 +6,7 @@ import { ThemedView } from "@/components/themed/ThemedView";
 import { darkTheme, useTheme } from "@/lib/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "expo-router";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { StyleSheet } from "react-native";
@@ -118,7 +119,7 @@ const Register = () => {
           )}
         />
 
-        <CustomButton text="Login" onPress={handleSubmit(onSubmit)} />
+        <CustomButton text="Sign Up" onPress={handleSubmit(onSubmit)} />
         <Separator />
         <CustomButton
           onPress={() => console.log("hello")}
@@ -127,6 +128,12 @@ const Register = () => {
             <Ionicons name="logo-google" size={20} color={darkTheme.text} />
           }
         />
+        <Link
+          href={"/auth/login"}
+          style={[styles.dontHaveAccountText, { color: theme.link }]}
+        >
+          Already Have an account, Please Login
+        </Link>
       </ThemedView>
     </ContentContainer>
   );
@@ -137,5 +144,12 @@ export default Register;
 const styles = StyleSheet.create({
   formContent: {
     paddingTop: 10,
+  },
+    dontHaveAccountText: {
+    fontSize: 16,
+    textAlign: "center",
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+    marginTop:10
   },
 });

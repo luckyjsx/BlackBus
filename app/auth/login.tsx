@@ -326,9 +326,9 @@ const Login = () => {
               </ThemedView>
 
               {/* Right side - Skip button */}
-              <TouchableOpacity onPress={handleSkip} style={styles.skipButton}>
-                <ThemedText style={styles.skipText}>Skip</ThemedText>
-              </TouchableOpacity>
+              {/* <TouchableOpacity onPress={handleSkip} style={styles.skipButton}>
+              </TouchableOpacity> */}
+                <Link href={"/onboarding/shareLocation"} style={styles.skipText}>Skip</Link>
             </ThemedView>
           </ImageBackground>
         )}
