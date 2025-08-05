@@ -14,6 +14,7 @@ type CustomTheme = MD3Theme & {
   pink: string;
   lightSilver: string;
   placeholder?: string;
+  link?:string
 };
 
 export const lightTheme: CustomTheme = {
@@ -25,6 +26,7 @@ export const lightTheme: CustomTheme = {
   pink: "#B9375D",
   lightSilver: "#D1D5DB",
   placeholder: '#ADAFBB',
+  link:"blue",
   colors: {
     ...PaperLightTheme.colors,
     background: "#ffffff",
@@ -41,6 +43,7 @@ export const darkTheme: CustomTheme = {
   pink: "#B9375D",
   lightSilver: "#D1D5DB",
   placeholder: "#ADAFBB",
+  link:"#B9375D",
   colors: {
     ...PaperDarkTheme.colors,
     background: "#030014",

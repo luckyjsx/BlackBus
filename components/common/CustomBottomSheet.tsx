@@ -141,6 +141,7 @@ const CustomBottomSheet = forwardRef<ReusableBottomSheetRef, ReusableBottomSheet
 const styles = StyleSheet.create({
     contentContainer: {
         padding: 16,
+        flex:1
     },
 });
 
