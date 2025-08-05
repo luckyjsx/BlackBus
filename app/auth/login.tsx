@@ -11,6 +11,7 @@ import { darkTheme, useTheme } from "@/lib/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React, {
   useCallback,
   useEffect,
@@ -23,7 +24,6 @@ import {
   Dimensions,
   ImageBackground,
   Keyboard,
-  StatusBar,
   StyleSheet,
   TouchableOpacity,
   useColorScheme,
@@ -288,12 +288,12 @@ const Login = () => {
   return (
     <>
       <StatusBar
-        barStyle={
+        style={
           colorScheme === "dark"
             ? currentIndex === 0
-              ? "dark-content"
-              : "light-content"
-            : "dark-content"
+              ? "dark" 
+              : "light" 
+            : "dark"
         }
       />
 

@@ -48,7 +48,7 @@ const Register = () => {
   };
   return (
     <ContentContainer
-      style={{ paddingHorizontal: 16, backgroundColor: theme.background }}
+      style={{ backgroundColor: theme.background }}
     >
       <ThemedView style={styles.formContent}>
         <Controller

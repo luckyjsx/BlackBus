@@ -2,24 +2,44 @@ import CustomButton from '@/components/common/CustomButton'
 import ContentContainer from '@/components/content-container/ContentContainer'
 import { ThemedText } from '@/components/themed/ThemedText'
 import { ThemedView } from '@/components/themed/ThemedView'
+import { images } from '@/constants/images'
 import { useTheme } from '@/lib/theme'
+import * as Location from 'expo-location'
+import { StatusBar } from 'expo-status-bar'
+import LottieView from 'lottie-react-native'
 import React from 'react'
-import { StyleSheet } from 'react-native'
-
-const ShareLocation = () => {
+import { StyleSheet, useColorScheme } from 'react-native'
+const ShareLocation =  () => {
   const theme = useTheme()
+  const colorScheme = useColorScheme()
+  const onShareLocationClick = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    console.log(status)
+  }
+  
   return (
-    <ContentContainer style={{ paddingHorizontal: 16, backgroundColor: theme.background }}>
+    <ContentContainer style={{ backgroundColor: theme.background }}>
+      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       <ThemedText style={styles.skipText}>Skip</ThemedText>
-      <ThemedView style={{ flex:1,justifyContent:"center",gap:10}}>
+      <ThemedView style={{ justifyContent:"center",alignItems:'center',gap:10,marginTop:100}}>
         <ThemedText style={styles.heading}>Enhance your travel experience</ThemedText>
         <ThemedText style={styles.description}>blackBus collects and uses location data to find boarding points near you and provide real-time travel updates.</ThemedText>
-        
+        <LottieView
+        autoPlay
+        style={{
+          width: 400,
+          height: 300,
+          // backgroundColor: '#eee',
+        }}
+        // Find more Lottie files at https://lottiefiles.com/featured
+        source={images.shareLocationGif}
+        loop
+      />
+      </ThemedView>
         <CustomButton
-          onPress={()=>console.log("la")}
+          onPress={onShareLocationClick}
           text='Share Location'
         />
-      </ThemedView>
     </ContentContainer>
   )
 }
