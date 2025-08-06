@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform } from 'react-native';
 import Constants from 'expo-constants';
+import { Platform } from 'react-native';
 
 function getBaseUrl() {
   const override = (Constants.expoConfig?.extra as any)?.API_BASE_URL;

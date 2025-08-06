@@ -5,16 +5,16 @@ import { Link } from 'expo-router';
 import React, { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
-    Alert,
-    Keyboard,
-    StyleSheet,
-    TouchableOpacity,
+  Alert,
+  Keyboard,
+  StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withSpring,
-    withTiming,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 import { z } from 'zod';
 
@@ -213,6 +213,7 @@ const LoginBottomSheet = forwardRef<LoginBottomSheetRef, LoginBottomSheetProps>(
       onChange={handleSheetChange}
       hideIndicator={currentIndex === 1}
       showBackDrop={showBackDrop}
+      style={{flex:1}}
     >
       {/* Container with relative positioning for X button */}
       <ThemedView style={styles.contentContainer}>
@@ -244,7 +245,7 @@ const LoginBottomSheet = forwardRef<LoginBottomSheetRef, LoginBottomSheetProps>(
                   value={value}
                   placeholder="Enter Your Email"
                   errorMsg={errors.email?.message}
-                  onFocus={onFocusInput}
+                  onPress={onFocusInput}
                   labelStyle={{ marginTop: 20 }}
                 />
               )}
@@ -263,7 +264,7 @@ const LoginBottomSheet = forwardRef<LoginBottomSheetRef, LoginBottomSheetProps>(
                   placeholder="Enter Your Password"  
                   errorMsg={errors.password?.message}
                   secureTextEntry
-                  onFocus={onFocusInput}
+                  onPress={onFocusInput}
                 />
               )}
             />

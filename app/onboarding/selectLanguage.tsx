@@ -145,7 +145,11 @@ const SelectLanguage = () => {
           />
         )}
 
-        <CustomButton onPress={setOnboarded} text="Get started" />
+       <CustomButton
+          onPress={setOnboarded}
+          text='Get started'
+          style={{marginBottom:20}}
+        />
       </ContentContainer>
 
       <CustomBottomSheet snapPoints={snapPoints} ref={bottomSheetRef}>
@@ -156,7 +160,7 @@ const SelectLanguage = () => {
             <CustomPressable
               onPress={() => onClickCountry(item.name)}
               text={item.name}
-              image={item.image}
+              image={{uri:item.image}}
               isActive={countrySelection.highlightedCountry === item.name}
               icon={
                 countrySelection.highlightedCountry === item.name ? (
@@ -172,7 +176,11 @@ const SelectLanguage = () => {
             />
           )}
           ListFooterComponent={
-            <CustomButton onPress={onConfirmCountry} text="Confirm" />
+             <CustomButton
+              onPress={onConfirmCountry}
+              text='Confirm'
+              style={{marginVertical:20}}
+            />
           }
         />
       </CustomBottomSheet>

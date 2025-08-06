@@ -59,6 +59,7 @@ const Register = () => {
       Alert.alert("Error","Something went wrong. Please try again.");
     }
     console.log("Form is valid, submitted data:", data);
+    router.push("/auth/otp")
   };
   return (
     <ContentContainer
@@ -136,7 +137,7 @@ const Register = () => {
         <CustomButton text="Sign Up" onPress={handleSubmit(onSubmit)} />
         <Separator />
         <CustomButton
-          onPress={() => console.log("hello")}
+          onPress={() => {}}
           text="Sign in with Google"
           icon={
             <Ionicons name="logo-google" size={20} color={darkTheme.text} />
