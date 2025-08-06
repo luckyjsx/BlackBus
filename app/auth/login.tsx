@@ -362,6 +362,7 @@ const Login = () => {
         onChange={handleSheetChange}
         hideIndicator={currentIndex === 1}
         showBackDrop={false}
+        style={{flex:1}}
       >
         {/* Container with relative positioning for X button */}
         <ThemedView style={styles.contentContainer}>
