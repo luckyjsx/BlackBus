@@ -7,7 +7,7 @@ import { darkTheme, useTheme } from "@/lib/theme";
 import { registerUser } from "@/services/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Alert, StyleSheet } from "react-native";
@@ -30,6 +30,7 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 
 const Register = () => {
   const theme = useTheme();
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -49,6 +50,7 @@ const Register = () => {
       const response = await registerUser(data);
       if(response.success){
         Alert.alert("Success",response.message);
+        router.replace("/")
       } else {
         Alert.alert("Error",response.message);
       }

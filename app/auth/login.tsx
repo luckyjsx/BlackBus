@@ -11,7 +11,7 @@ import { darkTheme, useTheme } from "@/lib/theme";
 import { loginUser } from "@/services/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React, {
   useCallback,
   useEffect,
@@ -87,6 +87,7 @@ const PAGINATION_TIMING_CONFIG = {
 
 const Login = () => {
   const theme = useTheme();
+  const router = useRouter();
   const bottomSheetRef = useRef<ReusableBottomSheetRef>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -135,6 +136,7 @@ const Login = () => {
       const response = await loginUser(data);
       if(response.success){
         Alert.alert("Successful", response.message);
+        router.replace("/")
         console.log("User:", response.user)
       }
     } catch(error) {
