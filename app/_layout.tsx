@@ -12,7 +12,6 @@ export default function RootLayout() {
   const router = useRouter();
   const theme = useTheme(); 
    const colorScheme = useColorScheme();
-  console.log(theme.dark)
   useEffect(() => {
     const checkOnboarding = async () => {
       const hasOnboarded = (await getItem('hasOnboarded')) === 'true';

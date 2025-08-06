@@ -98,8 +98,9 @@ const selectLanguage = () => {
       )}
 
         <CustomButton
-        onPress={setOnboarded}
-        text='Get started'
+          onPress={setOnboarded}
+          text='Get started'
+          style={{marginBottom:20}}
         />
     </ContentContainer>
     
@@ -124,6 +125,7 @@ const selectLanguage = () => {
             <CustomButton
               onPress={onConfirmCountry}
               text='Confirm'
+              style={{marginVertical:20}}
             />
           }
         />
