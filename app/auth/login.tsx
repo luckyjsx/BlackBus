@@ -8,9 +8,10 @@ import Separator from "@/components/common/Seprator";
 import { ThemedText } from "@/components/themed/ThemedText";
 import { ThemedView } from "@/components/themed/ThemedView";
 import { darkTheme, useTheme } from "@/lib/theme";
+import { loginUser } from "@/services/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React, {
   useCallback,
   useEffect,
@@ -20,6 +21,7 @@ import React, {
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
+  Alert,
   Dimensions,
   ImageBackground,
   Keyboard,
@@ -85,6 +87,7 @@ const PAGINATION_TIMING_CONFIG = {
 
 const Login = () => {
   const theme = useTheme();
+  const router = useRouter();
   const bottomSheetRef = useRef<ReusableBottomSheetRef>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -128,7 +131,21 @@ const Login = () => {
   });
 
   // Updated onSubmit with proper typing
-  const onSubmit = (data: LoginFormData) => {
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      const response = await loginUser(data);
+      if(response.success) {
+        Alert.alert("Login Successful", response.message);
+        console.log("JWT Token:", response.token);
+        console.log("User:", response.user);
+        router.replace("/")
+      } else {
+        Alert.alert("Login Failed", response.message);
+      }
+    } catch(error){
+      console.error("Login error:", error);
+      Alert.alert("Error","Invalid credentials or network error.")
+    }
     console.log("Form is valid, submitted data:", data);
   };
 
