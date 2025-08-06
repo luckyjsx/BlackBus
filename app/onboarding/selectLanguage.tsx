@@ -89,10 +89,10 @@ const SelectLanguage = () => {
 
   return (
     <>
-      <ContentContainer style={{ padding: 16, backgroundColor: theme.background }}>
-        <ThemedView style={styles.busIcon}>
-          <MaterialCommunityIcons name="bus-side" size={100} color={theme.text} />
-        </ThemedView>
+    <ContentContainer style={{ backgroundColor: theme.background, }}>
+      <ThemedView style={styles.busIcon}>
+        <MaterialCommunityIcons name="bus-side" size={100} color={theme.text} />
+      </ThemedView>
 
         <ThemedText style={styles.countryText}>Country</ThemedText>
         {loadingCountries ? (
