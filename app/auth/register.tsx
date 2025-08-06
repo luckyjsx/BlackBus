@@ -6,7 +6,7 @@ import { ThemedView } from "@/components/themed/ThemedView";
 import { darkTheme, useTheme } from "@/lib/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { StyleSheet } from "react-native";
@@ -45,10 +45,11 @@ const Register = () => {
 
   const onSubmit = (data: RegisterFormData) => {
     console.log("Form is valid, submitted data:", data);
+    router.push("/auth/otp")
   };
   return (
     <ContentContainer
-      style={{ paddingHorizontal: 16, backgroundColor: theme.background }}
+      style={{ backgroundColor: theme.background }}
     >
       <ThemedView style={styles.formContent}>
         <Controller
@@ -122,7 +123,7 @@ const Register = () => {
         <CustomButton text="Sign Up" onPress={handleSubmit(onSubmit)} />
         <Separator />
         <CustomButton
-          onPress={() => console.log("hello")}
+          onPress={() => {}}
           text="Sign in with Google"
           icon={
             <Ionicons name="logo-google" size={20} color={darkTheme.text} />

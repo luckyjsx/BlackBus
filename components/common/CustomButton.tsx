@@ -1,6 +1,6 @@
 import { darkTheme } from '@/lib/theme';
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { ThemedText } from '../themed/ThemedText';
 
 type buttonProps = {
@@ -8,13 +8,14 @@ type buttonProps = {
   text: string;
   icon?: React.ReactNode; 
   iconPosition?: 'left' | 'right'; 
+  style?:ViewStyle
 }
 
-const CustomButton = ({ onPress, text, icon, iconPosition = 'left' }: buttonProps) => {
+const CustomButton = ({ onPress, text, icon, iconPosition = 'left',style }: buttonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={styles.confirmButton}
+      style={[style,styles.confirmButton]}
     >
       <View style={styles.buttonContent}>
         {icon && iconPosition === 'left' && (

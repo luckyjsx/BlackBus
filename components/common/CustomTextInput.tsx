@@ -151,7 +151,7 @@ export const styles = StyleSheet.create({
     borderColor: "transparent",
   },
   errorContainer: {
-    height: 22, // Fixed height to prevent layout shifts
+    height: 22, 
     justifyContent: 'center',
     paddingTop: 3,
   },

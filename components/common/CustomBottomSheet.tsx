@@ -31,6 +31,7 @@ export interface ReusableBottomSheetProps {
     animationConfigs?: BottomSheetProps['animationConfigs'];
     showBackDrop?: boolean;
     hideIndicator?: boolean;
+    style?:ViewStyle
 }
 
 export interface ReusableBottomSheetRef {
@@ -51,6 +52,7 @@ const CustomBottomSheet = forwardRef<ReusableBottomSheetRef, ReusableBottomSheet
             animationConfigs,
             showBackDrop = true,
             hideIndicator = false,
+            style
         },
         ref
     ) => {
@@ -132,7 +134,7 @@ const CustomBottomSheet = forwardRef<ReusableBottomSheetRef, ReusableBottomSheet
                 onChange={onChange}
                 animationConfigs={animationConfigs}
             >
-                <View style={styles.contentContainer}>{children}</View>
+                <View style={[style,styles.contentContainer]}>{children}</View>
             </BottomSheet>
         );
     }
@@ -141,7 +143,6 @@ const CustomBottomSheet = forwardRef<ReusableBottomSheetRef, ReusableBottomSheet
 const styles = StyleSheet.create({
     contentContainer: {
         padding: 16,
-        flex:1
     },
 });
 
