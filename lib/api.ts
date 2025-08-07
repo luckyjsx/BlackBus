@@ -7,7 +7,7 @@ function getBaseUrl() {
   if (override) return override as string;
 
   if (Platform.OS === 'android') {
-    return 'http://10.0.2.2:3000/api/v1';
+    return 'http://192.168.0.176:3000/api/v1';
   }
   return 'http://localhost:3000/api/v1';
 }

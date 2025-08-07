@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import { userStore } from '@/store/userStore';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 const Home = () => {
-      
-      const snapPoints = useMemo(() => ['50%', '50%', '90%'], []);
+  const {user, isAuthenticated} = userStore()
 
   return (
       <View style={styles.container}>
@@ -17,6 +17,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: 'grey',
   },
 })
