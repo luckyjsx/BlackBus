@@ -4,16 +4,31 @@ import ContentContainer from '@/components/content-container/ContentContainer'
 import { ThemedText } from '@/components/themed/ThemedText'
 import { ThemedView } from '@/components/themed/ThemedView'
 import { useTheme } from '@/lib/theme'
+import { verifyOtp } from '@/services/otp'
+import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { Alert, StyleSheet } from 'react-native'
 
 const Otp = () => {
     const theme = useTheme();
+    const route = useRouter();
     const [currentOtp, setCurrentOtp] = useState('');
-
+    const email = 'twinkle.mentem@gmail.com'
     // Handle OTP completion
-    const handleOtpComplete = (otp: string) => {
+    const handleOtpComplete = async (otp: string) => {
         // You can add auto-verification logic here if needed
+        try {
+            const response = await verifyOtp({email, otp});
+            if(response.success){
+                Alert.alert('Success', response.message)
+                route.replace('/')
+            } else {
+                Alert.alert('Error',response.message)
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Something went wrong. Please try again.');
+            console.error(error);
+        }
     };
 
     // Handle OTP change
