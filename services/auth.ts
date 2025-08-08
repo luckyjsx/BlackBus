@@ -32,6 +32,17 @@ interface LoginResponse {
     message: string;
 }
 
+interface ResendOtpPayload {
+    email: string;
+}
+
+interface ResendOtpResponse {
+    success: boolean;
+    message: string;
+    nextResendTime?: string;
+    remainingTime?: number;
+}
+
 export async function registerUser(payload: RegisterPayload): Promise<RegisterResponse> {
     const response = await api.post<RegisterResponse>('/auth/register',{
         firstName: payload.firstname,
@@ -46,3 +57,8 @@ export async function loginUser(payload: LoginPayload): Promise<LoginResponse>{
     const response = await api.post<LoginResponse>("/auth/login", payload);
     return response.data;
 }
+
+export async function resendOtp(payload: ResendOtpPayload): Promise<ResendOtpResponse> {
+    const response = await api.post<ResendOtpResponse>('/auth/resend-otp', payload);
+    return response.data;
+};

@@ -1,7 +1,8 @@
 // components/auth/OtpInput.tsx
 import { useTheme } from "@/lib/theme";
+import { resendOtp } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Alert, StyleSheet, TouchableOpacity } from "react-native";
 import z from "zod";
@@ -58,6 +59,7 @@ const OtpInput = ({
 
   const watchedValues = watch();
   const otpString = Object.values(watchedValues).join("");
+  const [disableResend, setDisableResend] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -162,13 +164,24 @@ const OtpInput = ({
     inputRefs.current[0]?.focus();
   };
 
-  const resendOtp = async () => {
-    try {
-      console.log("Resending OTP...");
-    } catch (error) {
-      Alert.alert("Error", "Failed to resend OTP. Please try again.");
+const handleResend = async () => {
+   const email = 'twinkle.mentem@gmail.com';
+  try {
+    setDisableResend(true);
+    const response = await resendOtp({ email });
+
+    if (response.success) {
+      Alert.alert('OTP Sent', response.message);
+      setTimeout(() => setDisableResend(false), 10000);
+    } else {
+      Alert.alert('Try Again', response.message);
+      setDisableResend(false);
     }
-  };
+  } catch (error) {
+    Alert.alert('Error', 'Something went wrong while resending OTP.');
+    setDisableResend(false);
+  }
+};
 
   return (
     <ThemedView style={styles.container}>
@@ -246,7 +259,7 @@ const OtpInput = ({
             </ThemedText>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionButton} onPress={resendOtp}>
+          <TouchableOpacity style={styles.actionButton} disabled={disableResend} onPress={handleResend}>
             <ThemedText
               style={[styles.actionButtonText, { color: theme.pink }]}
             >
