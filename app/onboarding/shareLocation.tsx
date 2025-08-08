@@ -5,17 +5,30 @@ import { ThemedView } from '@/components/themed/ThemedView'
 import { images } from '@/constants/images'
 import { useTheme } from '@/lib/theme'
 import * as Location from 'expo-location'
+import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import LottieView from 'lottie-react-native'
-import React from 'react'
-import { StyleSheet, useColorScheme } from 'react-native'
+import React, { useEffect } from 'react'
+import { BackHandler, StyleSheet, useColorScheme } from 'react-native'
 const ShareLocation =  () => {
   const theme = useTheme()
   const colorScheme = useColorScheme()
+  const router = useRouter()
   const onShareLocationClick = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     console.log(status)
   }
+
+   useEffect(() => {
+      const onBackPress = () => {
+        router.replace('/');
+        return true;
+      };
+  
+      const subscription = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+  
+      return () => subscription.remove();
+    }, []);
   
   return (
     <ContentContainer style={{ backgroundColor: theme.background }}>

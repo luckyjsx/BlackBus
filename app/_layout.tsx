@@ -1,5 +1,6 @@
 // app/_layout.tsx
 import { useTheme } from '@/lib/theme';
+import { userStore } from '@/store/userStore';
 import { Stack, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
@@ -11,7 +12,8 @@ import { getItem } from '../lib/storage';
 export default function RootLayout() {
   const router = useRouter();
   const theme = useTheme(); 
-   const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme();
+  const { isAuthenticated} = userStore()
   useEffect(() => {
     const checkOnboarding = async () => {
       const hasOnboarded = (await getItem('hasOnboarded')) === 'true';

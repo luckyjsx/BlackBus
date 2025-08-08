@@ -9,6 +9,7 @@ import { ThemedText } from "@/components/themed/ThemedText";
 import { ThemedView } from "@/components/themed/ThemedView";
 import { darkTheme, useTheme } from "@/lib/theme";
 import { loginUser } from "@/services/auth";
+import { userStore } from "@/store/userStore";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useRouter } from "expo-router";
@@ -22,6 +23,7 @@ import React, {
 import { Controller, useForm } from "react-hook-form";
 import {
   Alert,
+  BackHandler,
   Dimensions,
   ImageBackground,
   Keyboard,
@@ -92,6 +94,7 @@ const Login = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const colorScheme = useColorScheme();
+  const {login} = userStore()
 
   const snapPoints = useMemo(() => ["50%", "100%"], []);
   const hasAutoFlowRun = useRef(false);
@@ -117,6 +120,18 @@ const Login = () => {
       PAGINATION_TIMING_CONFIG
     );
   }, [currentImageIndex]);
+  
+  
+  useEffect(() => {
+    const onBackPress = () => {
+      router.replace('/onboarding/shareLocation'); // 👈 or your desired screen
+      return true; // 👈 prevent default behavior
+    };
+
+    const subscription = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+    return () => subscription.remove();
+  }, []);
 
   const {
     control,
@@ -138,6 +153,7 @@ const Login = () => {
         Alert.alert("Login Successful", response.message);
         console.log("JWT Token:", response.token);
         console.log("User:", response.user);
+        login(response?.user)
         router.replace("/")
       } else {
         Alert.alert("Login Failed", response.message);
