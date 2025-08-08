@@ -12,6 +12,13 @@ import { loginUser } from "@/services/auth";
 import { userStore } from "@/store/userStore";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  GoogleSignin,
+  isErrorWithCode,
+  isSuccessResponse,
+  statusCodes
+} from '@react-native-google-signin/google-signin';
+import Constants from 'expo-constants';
 import { Link, useRouter } from "expo-router";
 import React, {
   useCallback,
@@ -42,6 +49,13 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { z } from "zod";
+const { googleWebClientId } = Constants.expoConfig?.extra ?? {};
+
+GoogleSignin.configure({
+  "webClientId": googleWebClientId,
+  offlineAccess: true, // Add this for refresh tokens
+  forceCodeForRefreshToken: true, // Add this
+});
 
 // Get screen dimensions
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -93,10 +107,11 @@ const Login = () => {
   const bottomSheetRef = useRef<ReusableBottomSheetRef>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [googleUserInfo, setGoogleUserInfo] = useState<any>(null)
   const colorScheme = useColorScheme();
   const {login} = userStore()
 
-  const snapPoints = useMemo(() => ["50%", "100%"], []);
+  const snapPoints = useMemo(() => ["50%", "100%"], []); 
   const hasAutoFlowRun = useRef(false);
 
   // Animation values for X button
@@ -164,6 +179,83 @@ const Login = () => {
     }
     console.log("Form is valid, submitted data:", data);
   };
+
+  useEffect(() => {
+  const checkSignedInUser = async () => {
+    try {
+      const currentUser = await GoogleSignin.getCurrentUser();
+      if (currentUser) {
+        console.log('Already signed in:', currentUser);
+        setGoogleUserInfo(currentUser);
+      }
+    } catch (error) {
+      console.log('No current user:', error);
+    }
+  };
+  
+  checkSignedInUser();
+}, []);
+
+
+  const handleGoogleSignIn = async () => {
+  try {
+    console.log('Starting Google Sign-In...');
+    
+    // Check if Play Services are available
+    await GoogleSignin.hasPlayServices({
+      showPlayServicesUpdateDialog: true,
+    });
+    
+    console.log('Play Services available, attempting sign-in...');
+    
+    const response = await GoogleSignin.signIn();
+    console.log('Sign-in response:', response);
+    
+    if (isSuccessResponse(response)) {
+      console.log('Sign-in successful:', response.data);
+      setGoogleUserInfo(response.data);
+      
+      // Handle the user data here
+      const userData = response.data.user;
+      console.log('User data:', userData);
+      
+      // You can now use this data to authenticate with your backend
+      // or store in Zustand
+      
+    } else {
+      console.log('Sign in was cancelled by user');
+      Alert.alert("Cancelled", "Sign in was cancelled");
+    }
+  } catch (error) {
+    console.log('Google Sign-In Error:', error);
+    
+    if (isErrorWithCode(error)) {
+      switch (error.code) {
+        case statusCodes.SIGN_IN_CANCELLED:
+          console.log('User cancelled sign-in');
+          Alert.alert("Cancelled", "Sign in was cancelled");
+          break;
+        case statusCodes.IN_PROGRESS:
+          console.log('Sign in is in progress');
+          Alert.alert("In Progress", "Sign in is already in progress");
+          break;
+        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+          console.log('Play services not available');
+          Alert.alert("Error", "Google Play Services not available");
+          break;
+        default:
+          console.log('Unknown error code:', error.code);
+          Alert.alert("Error", `Unknown error: ${error.message}`);
+      }
+    } else {
+      console.log('Non-Google Sign-in error:', error);
+      Alert.alert("Error", "An unexpected error occurred");
+    }
+  }
+};
+
+
+  console.log("laxman...",googleUserInfo)
 
   // Smooth X button animation style
   const animatedXStyle = useAnimatedStyle(() => {
@@ -437,7 +529,7 @@ const Login = () => {
               <CustomButton text="Login" onPress={handleSubmit(onSubmit)} />
               <Separator />
               <CustomButton
-                onPress={() => console.log("hello")}
+                onPress={handleGoogleSignIn}
                 text="Sign in with Google"
                 icon={
                   <Ionicons

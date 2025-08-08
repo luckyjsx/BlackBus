@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "BlackBus",
-    "backgroundColor":"#030014",
+    "backgroundColor": "#030014",
     "slug": "BlackBus",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,7 +10,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.laxman.BlackBus"
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +19,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.BlackBus"
+      "package": "com.laxman.BlackBus"
     },
     "web": {
       "bundler": "metro",
@@ -46,10 +47,20 @@
             "newArchEnabled": true
           }
         }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps._some_id_here_"
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+
+    "extra": {
+      "googleWebClientId": "507000329956-76tig4ta2gf1dmaa83b94t6uqib9g5fl.apps.googleusercontent.com"
     }
   }
 }

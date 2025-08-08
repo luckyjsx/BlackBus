@@ -17,7 +17,7 @@ export default function RootLayout() {
   useEffect(() => {
     const checkOnboarding = async () => {
       const hasOnboarded = (await getItem('hasOnboarded')) === 'true';
-      if (hasOnboarded) {
+      if (!hasOnboarded) {
         router.replace('/onboarding/selectLanguage');
       }
     };

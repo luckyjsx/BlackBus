@@ -1,4 +1,4 @@
-package com.anonymous.BlackBus
+package com.laxman.BlackBus
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build
