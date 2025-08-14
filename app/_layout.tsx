@@ -1,4 +1,5 @@
 // app/_layout.tsx
+import { getItem } from '@/lib/storage';
 import { useTheme } from '@/lib/theme';
 import { userStore } from '@/store/userStore';
 import { Stack, useRouter } from 'expo-router';
@@ -7,7 +8,6 @@ import { useEffect } from 'react';
 import { StyleSheet, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
-import { getItem } from '../lib/storage';
 
 export default function RootLayout() {
   const router = useRouter();
@@ -17,7 +17,8 @@ export default function RootLayout() {
   useEffect(() => {
     const checkOnboarding = async () => {
       const hasOnboarded = (await getItem('hasOnboarded')) === 'true';
-      if (!hasOnboarded) {
+      console.log("laxman...",hasOnboarded)
+      if (hasOnboarded) {
         router.replace('/onboarding/selectLanguage');
       }
     };
@@ -31,7 +32,7 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="onboarding" />
-          {/* <Stack.Screen name="auth" /> */}
+          <Stack.Screen name="auth" />
           <Stack.Screen name="+not-found" />
         </Stack>
       </GestureHandlerRootView>

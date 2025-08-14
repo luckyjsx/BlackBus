@@ -50,7 +50,7 @@ const Register = () => {
       const response = await registerUser(data);
       if(response.success){
         Alert.alert("Success",response.message);
-        router.replace("/")
+        router.replace("/auth/otp")
       } else {
         Alert.alert("Error",response.message);
       }

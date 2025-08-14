@@ -55,8 +55,6 @@ export async function registerUser(payload: RegisterPayload): Promise<RegisterRe
 
 export async function loginUser(payload: LoginPayload): Promise<LoginResponse>{
     const response = await api.post<LoginResponse>("/auth/login", payload);
-    
-    console.log("laxman....",response.data)
     return response.data;
 }
 
