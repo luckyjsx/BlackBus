@@ -58,7 +58,7 @@ const SelectLanguage = () => {
       return;
     }
     await setItem('hasOnboarded', 'true');
-    router.push('/auth/login');
+    router.replace('/auth/login');
   };
 
   const snapPoints = useMemo(() => ['60%'], []);

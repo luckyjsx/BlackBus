@@ -3,8 +3,10 @@ import CustomTextInput from "@/components/common/CustomTextInput";
 import Separator from "@/components/common/Seprator";
 import ContentContainer from "@/components/content-container/ContentContainer";
 import { ThemedView } from "@/components/themed/ThemedView";
+import { setItem } from "@/lib/storage";
 import { darkTheme, useTheme } from "@/lib/theme";
-import { registerUser } from "@/services/auth";
+import { loginUserWithGoogle, registerUser } from "@/services/auth";
+import { userStore } from "@/store/userStore";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useRouter } from "expo-router";
@@ -31,6 +33,7 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 const Register = () => {
   const theme = useTheme();
   const router = useRouter();
+  const {login} = userStore()
   const {
     control,
     handleSubmit,
@@ -61,6 +64,14 @@ const Register = () => {
     console.log("Form is valid, submitted data:", data);
     router.push("/auth/otp")
   };
+
+   const handleGoogleSignIn = async () => {
+      const response = await loginUserWithGoogle();
+      if (response) {
+        login(response.user);
+        setItem("token", response.token);
+      }
+    };
   return (
     <ContentContainer
       style={{ backgroundColor: theme.background }}
@@ -137,7 +148,7 @@ const Register = () => {
         <CustomButton text="Sign Up" onPress={handleSubmit(onSubmit)} />
         <Separator />
         <CustomButton
-          onPress={() => {}}
+          onPress={handleGoogleSignIn}
           text="Sign in with Google"
           icon={
             <Ionicons name="logo-google" size={20} color={darkTheme.text} />
