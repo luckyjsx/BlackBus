@@ -56,6 +56,7 @@ export async function registerUser(payload: RegisterPayload): Promise<RegisterRe
 
 export async function loginUser(payload: LoginPayload): Promise<LoginResponse>{
     const response = await api.post<LoginResponse>("/auth/login", payload);
+    console.log("hello...",response)
     return response.data;
 }
 
@@ -85,7 +86,7 @@ export async function loginUserWithGoogle() {
     }
 
     const backendResponse = await api.post<LoginResponse>("/auth/google", { idToken });
-    console.log("Backend Google Auth Response:", backendResponse);
+    console.log("Backend Google Auth Response:", backendResponse.data);
 
     return backendResponse.data;
 

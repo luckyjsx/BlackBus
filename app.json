@@ -58,9 +58,12 @@
     "experiments": {
       "typedRoutes": true
     },
-
     "extra": {
-      "googleWebClientId": "507000329956-76tig4ta2gf1dmaa83b94t6uqib9g5fl.apps.googleusercontent.com"
+      "googleWebClientId": "507000329956-76tig4ta2gf1dmaa83b94t6uqib9g5fl.apps.googleusercontent.com",
+      "router": {},
+      "eas": {
+        "projectId": "82089846-5b8a-4abc-90b4-b7c72b086dfe"
+      }
     }
   }
 }

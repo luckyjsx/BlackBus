@@ -67,9 +67,10 @@ const Register = () => {
 
    const handleGoogleSignIn = async () => {
       const response = await loginUserWithGoogle();
-      if (response) {
+      if (response?.success) {
         login(response.user);
         setItem("token", response.token);
+        router.replace("/")
       }
     };
   return (
