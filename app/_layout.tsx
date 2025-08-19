@@ -18,9 +18,13 @@ export default function RootLayout() {
     const checkOnboarding = async () => {
       const hasOnboarded = (await getItem('hasOnboarded')) === 'true';
       console.log("laxman...",hasOnboarded)
-      if (hasOnboarded) {
-        router.replace('/onboarding/selectLanguage');
-      }
+      if (!hasOnboarded) {
+      // if NOT onboarded → go to onboarding flow
+      router.replace('/onboarding/selectLanguage');
+    } else {
+      // if onboarded → go to main app (tabs)
+      router.replace('/(tabs)/home');
+    }
     };
     checkOnboarding();
   }, []);

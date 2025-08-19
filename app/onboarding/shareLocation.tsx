@@ -21,7 +21,7 @@ const ShareLocation =  () => {
 
    useEffect(() => {
       const onBackPress = () => {
-        router.replace('/');
+        router.replace('/(tabs)/home');
         return true;
       };
   

@@ -169,7 +169,7 @@ const Login = () => {
         console.log("User:", response.user);
         login(response?.user)
         setItem("token",response.token)
-        router.replace("/")
+        router.replace("/home")
       } else {
         Alert.alert("Login Failed", response.message);
       }
@@ -202,7 +202,7 @@ const Login = () => {
     if (response?.success) {
       login(response.user);
       setItem("token", response.token);
-      router.replace("/")
+      router.replace("/home")
     }
   };
 

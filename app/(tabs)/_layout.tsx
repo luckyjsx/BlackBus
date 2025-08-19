@@ -13,9 +13,9 @@ const TabLayout = () => {
             borderTopWidth: 0,
             },
         }}
-        initialRouteName='index'
+        initialRouteName='home'
     >
-      <Tabs.Screen name='index' options={{headerShown:false,title:"Home"}}/>
+      <Tabs.Screen name='home' options={{headerShown:false,title:"Home",}}/>
       <Tabs.Screen name='bookings' options={{headerShown:false,title:"Bookings"}}/>
       <Tabs.Screen name='help' options={{headerShown:false,title:"Help"}}/>
       <Tabs.Screen name='myAccount' options={{title:"User"}}/>
