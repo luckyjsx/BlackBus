@@ -1,4 +1,5 @@
 import { useTheme } from "@/lib/theme";
+import { AntDesign } from "@expo/vector-icons";
 import Feather from '@expo/vector-icons/Feather';
 import React, { useState } from "react";
 import { Keyboard, StyleSheet, } from "react-native";
@@ -16,6 +17,7 @@ export type CustomTextInputProps = TextInputProps & {
   labelBackgroundColor?: string;
   textboxBackgroundColor?: string;
   labelStyle?: object
+  showLeftIcon?: boolean;
 };
 
 const CustomTextInput = ({
@@ -29,6 +31,7 @@ const CustomTextInput = ({
   labelBackgroundColor,
   textboxBackgroundColor,
   labelStyle,
+  showLeftIcon = false,
   ...rest
 }: CustomTextInputProps) => {
   const theme = useTheme();
@@ -56,11 +59,12 @@ const CustomTextInput = ({
             styles.inputStyle,
             bordered && { borderColor: theme.lightSilver },
             isFocused && { borderColor: theme.pink },
+            showLeftIcon && { borderRadius:25, borderTopLeftRadius:25, borderTopRightRadius:25 },
             style
           ]}
           cursorColor={theme.lightSilver}
           selectionColor={theme.lightSilver}
-          contentStyle={styles.textInput}
+          contentStyle={[styles.textInput, showLeftIcon && { paddingLeft: -20,borderRadius:500 }]}
           placeholderTextColor={theme.placeholder}
           underlineColor="transparent"
           underlineStyle={styles.underline}
@@ -80,6 +84,17 @@ const CustomTextInput = ({
                     size={20}
                     color={theme.placeholder}
                   />
+                )}
+                onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+              />
+            )
+          }
+          left={
+            showLeftIcon && (
+              <TextInput.Icon
+                style={{marginLeft:-8,}}
+                icon={() => (
+                  <AntDesign name="arrowleft" size={20} color={theme.placeholder} />
                 )}
                 onPress={() => setIsPasswordVisible(!isPasswordVisible)}
               />

@@ -1,8 +1,11 @@
 
-import { Tabs } from 'expo-router'
-import React from 'react'
+import { Tabs, useSegments } from 'expo-router';
+import React from 'react';
 
 const TabLayout = () => {
+  const segments = useSegments() as string[];
+  const currentPage = segments[segments.length - 1];
+  const pagesToHideTabBar = ['search', 'details', 'profile-edit'];
   return (
     <Tabs
         screenOptions={{
@@ -11,6 +14,7 @@ const TabLayout = () => {
             tabBarStyle: {
             backgroundColor: '#fff',
             borderTopWidth: 0,
+            display: pagesToHideTabBar.includes(currentPage) ? 'none' : 'flex',
             },
         }}
         initialRouteName='home'

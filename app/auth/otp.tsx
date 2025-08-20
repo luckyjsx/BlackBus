@@ -21,7 +21,7 @@ const Otp = () => {
             const response = await verifyOtp({email, otp});
             if(response.success){
                 Alert.alert('Success', response.message)
-                route.replace('/')
+                route.replace('/(tabs)/home')
             } else {
                 Alert.alert('Error',response.message)
             }

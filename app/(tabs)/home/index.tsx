@@ -13,6 +13,7 @@ const Home = () => {
       <ContentContainer>
         <View style={styles.container}>
         <CustomPressable text='Search' onPress={() => router.push("/(tabs)/home/search")}/>
+        <CustomPressable text='register' onPress={() => router.push("/auth/register")}/>
       </View>
       </ContentContainer>
   )

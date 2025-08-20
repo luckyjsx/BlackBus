@@ -1,5 +1,6 @@
 // components/CustomLayout.tsx
 
+import { useTheme } from '@/lib/theme';
 import React, { ReactNode } from 'react';
 import {
   ScrollView,
@@ -25,8 +26,9 @@ const ContentContainer: React.FC<ContentContainerProps> = ({
   style,
   contentContainerStyle,
 }) => {
+  const theme = useTheme()
   return (
-    <SafeAreaView style={[styles.safeArea, style]} edges={safeAreaEdges}>
+    <SafeAreaView style={[styles.safeArea, style,{backgroundColor:theme.background}]} edges={safeAreaEdges}>
       {scrollable ? (
         <ScrollView
           contentContainerStyle={[styles.scrollContent, contentContainerStyle]}
