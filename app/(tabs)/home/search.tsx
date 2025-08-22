@@ -4,7 +4,7 @@ import { ThemedText } from '@/components/themed/ThemedText'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useTheme } from '@/lib/theme'
 import { City, searchCities } from '@/services/cities'
-import { Link, useRouter } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { StyleSheet } from 'react-native'
@@ -12,30 +12,35 @@ import { FlatList, Pressable } from 'react-native-gesture-handler'
 
 
 const Search = () => {
-  const {control, watch} = useForm()
+  const { control, watch } = useForm()
   const searchValue = watch('search', '');
-  const debouncedSearchValue = useDebounce(searchValue,500);
+  const debouncedSearchValue = useDebounce(searchValue, 500);
   const [cities, setCities] = useState<City[]>([]);
   const theme = useTheme();
   const router = useRouter();
+  const { fromCity, selectedFromCity, selectedToCity } = useLocalSearchParams<{
+    fromCity?: string;
+    selectedFromCity?: string;
+    selectedToCity?: string;
+  }>();
+  const isFromCity = fromCity === "true";
 
   const perfromSearch = useCallback(async (searchTerm: string) => {
-    if(searchTerm.trim()){
-      console.log("Searching for:", searchTerm);
+    if (searchTerm.trim()) {
       try {
-      const results = await searchCities(searchTerm);
-      setCities(results);
-    } catch (error) {
-      console.error('Search failed:', error);
-    } finally {
-      // setLoading(false);
+        const results = await searchCities(searchTerm);
+        setCities(results);
+      } catch (error) {
+        console.error('Search failed:', error);
+      } finally {
+        // setLoading(false);
+      }
     }
-    }
-  },[])
+  }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     perfromSearch(debouncedSearchValue);
-  },[debouncedSearchValue, perfromSearch])
+  }, [debouncedSearchValue, perfromSearch])
 
   return (
     <ContentContainer>
@@ -43,7 +48,7 @@ const Search = () => {
         control={control}
         name='search'
         defaultValue=''
-        render={({field:{onChange,onBlur,value}})=>(
+        render={({ field: { onChange, onBlur, value } }) => (
           <CustomTextInput
             placeholder='Search...'
             value={value}
@@ -51,6 +56,7 @@ const Search = () => {
             onBlur={onBlur}
             bordered
             showLeftIcon
+            onLeftIconPress={() => router.back()}
           />
         )}
 
@@ -58,12 +64,32 @@ const Search = () => {
       <FlatList
         data={cities}
         keyExtractor={(city) => city._id}
-        renderItem={({item, index}) =>(
-          <Link href={"/(tabs)/home"} asChild>
-            <Pressable onPress={() => router.replace("/(tabs)/home")} style={[styles.cityContainer,{borderColor:theme.lightSilver}, index === cities.length-1 && {borderBottomWidth:0}]} key={item._id}>
+        renderItem={({ item, index }) => (
+          <Pressable
+            onPress={() => {
+              router.replace({
+                pathname: "/(tabs)/home",
+                params: {
+                  selectedFromCity: isFromCity
+                    ? JSON.stringify(item)
+                    : selectedFromCity,  // keep old one
+                  selectedToCity: !isFromCity
+                    ? JSON.stringify(item)
+                    : selectedToCity,    // keep old one
+                },
+              });
+            }}
+
+            style={[
+              styles.cityContainer,
+              { borderColor: theme.lightSilver },
+              index === cities.length - 1 && { borderBottomWidth: 0 },
+            ]}
+            key={item._id}
+          >
             <ThemedText >{item.name}</ThemedText>
           </Pressable>
-          </Link>
+
         )}
       />
     </ContentContainer>
@@ -73,8 +99,8 @@ const Search = () => {
 export default Search
 
 const styles = StyleSheet.create({
-cityContainer:{
-  padding: 10,
-  borderBottomWidth: 1,
-}
+  cityContainer: {
+    padding: 10,
+    borderBottomWidth: 1,
+  }
 })

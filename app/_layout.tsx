@@ -17,7 +17,6 @@ export default function RootLayout() {
   useEffect(() => {
     const checkOnboarding = async () => {
       const hasOnboarded = (await getItem('hasOnboarded')) === 'true';
-      console.log("laxman...",hasOnboarded)
       if (!hasOnboarded) {
       // if NOT onboarded → go to onboarding flow
       router.replace('/onboarding/selectLanguage');

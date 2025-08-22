@@ -18,6 +18,7 @@ export type CustomTextInputProps = TextInputProps & {
   textboxBackgroundColor?: string;
   labelStyle?: object
   showLeftIcon?: boolean;
+  onLeftIconPress?: () => void;
 };
 
 const CustomTextInput = ({
@@ -32,6 +33,7 @@ const CustomTextInput = ({
   textboxBackgroundColor,
   labelStyle,
   showLeftIcon = false,
+  onLeftIconPress,
   ...rest
 }: CustomTextInputProps) => {
   const theme = useTheme();
@@ -94,7 +96,7 @@ const CustomTextInput = ({
               <TextInput.Icon
                 style={{marginLeft:-8,}}
                 icon={() => (
-                  <AntDesign name="arrowleft" size={20} color={theme.placeholder} />
+                  <AntDesign onPress={onLeftIconPress} name="arrowleft" size={20} color={theme.placeholder} />
                 )}
                 onPress={() => setIsPasswordVisible(!isPasswordVisible)}
               />

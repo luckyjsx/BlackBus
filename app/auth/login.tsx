@@ -162,7 +162,6 @@ const Login = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       const response = await loginUser(data);
-      console.log("laxman...",response)
       if(response.success) {
         Alert.alert("Login Successful", response.message);
         console.log("JWT Token:", response.token);

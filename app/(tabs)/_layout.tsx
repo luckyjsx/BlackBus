@@ -1,18 +1,20 @@
 
+import { useTheme } from '@/lib/theme';
 import { Tabs, useSegments } from 'expo-router';
 import React from 'react';
 
 const TabLayout = () => {
   const segments = useSegments() as string[];
+  const theme = useTheme();
   const currentPage = segments[segments.length - 1];
   const pagesToHideTabBar = ['search', 'details', 'profile-edit'];
   return (
     <Tabs
         screenOptions={{
-            tabBarActiveTintColor: '#000',
+            tabBarActiveTintColor: theme.text,
             tabBarInactiveTintColor: '#888',
             tabBarStyle: {
-            backgroundColor: '#fff',
+            backgroundColor: theme.background,
             borderTopWidth: 0,
             display: pagesToHideTabBar.includes(currentPage) ? 'none' : 'flex',
             },
