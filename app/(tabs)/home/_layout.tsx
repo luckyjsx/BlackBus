@@ -10,6 +10,7 @@ export default function HomeLayout() {
     >
       <Stack.Screen name="index" options={{headerShown:false,title:"Home"}} />
       <Stack.Screen name="search" options={{headerShown:false,animation:"slide_from_right"}} />
+      <Stack.Screen name="buslist" options={{headerShown:false,animation:"slide_from_right"}} />
     </Stack>
   );
 }

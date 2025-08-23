@@ -4,11 +4,12 @@ import ContentContainer from '@/components/content-container/ContentContainer';
 import { ThemedText } from '@/components/themed/ThemedText';
 import { ThemedView } from '@/components/themed/ThemedView';
 import { darkTheme, useTheme } from '@/lib/theme';
+import { searchBus } from '@/services/bus';
 import { userStore } from '@/store/userStore';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { format, parseISO } from "date-fns";
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -60,6 +61,12 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    let today = new Date();
+    let formattedDate = formatDate(today.toISOString());
+    setSelectedDate(formattedDate);
+  }, [])
+
 
 const formatDate = (dateString: string) => {
   console.log("laxman...",dateString)
@@ -78,6 +85,34 @@ const onClickTomorrow = () =>{
   tomorrow.setDate(tomorrow.getDate() + 1);
   let formattedDate = formatDate(tomorrow.toISOString());
   setSelectedDate(formattedDate);
+}
+
+const onSearchBusesPress = async () => {
+  try {
+    // setLoading(true);
+
+    // Example: you already have from, to, and date states
+    const result = await searchBus(parseCity(selectedFromCity), parseCity(selectedToCity), selectedDate as string);
+    console.log("Search Bus Result:", result.data);
+
+    // if (result.data.length === 0) {
+    //   Alert.alert("No Buses Found", "Try another date or city");
+    //   return;
+    // }
+
+    // ✅ Navigate to bus list screen with result
+    router.push({
+      pathname: "/home/buslist",
+      params: {
+        buses: JSON.stringify(result.data), // pass as string, parse on next screen
+      },
+    });
+  } catch (error) {
+    console.error("Error searching buses:", error);
+    // Alert.alert("Error", "Something went wrong while fetching buses");
+  } finally {
+    // setLoading(false);
+  }
 }
 
   return (
@@ -111,7 +146,7 @@ const onClickTomorrow = () =>{
             </ThemedView>
 
             {/* Swap Icon */}
-            <Pressable onPress={onSwapIconPress} style={{ position: 'absolute', top: 20, right: 30 }}>
+            <Pressable onPress={onSwapIconPress} style={{ position: 'absolute', top: 38, right: 30 }}>
               <Animated.View style={[animatedStyle,]}>
                 <MaterialCommunityIcons
                   onPress={onSwapIconPress}
@@ -176,7 +211,7 @@ const onClickTomorrow = () =>{
         </ThemedView>
 
            <CustomButton
-                onPress={()=>{}}
+                onPress={onSearchBusesPress}
                 text="Search buses"
                 icon={
                   <Ionicons
@@ -200,7 +235,7 @@ const onClickTomorrow = () =>{
             // Save selected date to state
             // setSelectedDate(day.dateString)
             let formattedDate = formatDate(day.dateString);
-            setSelectedDate(formattedDate);
+            setSelectedDate(day.dateString);
             bottomSheetRef.current?.close(); // close after picking
           }}
           markedDates={{

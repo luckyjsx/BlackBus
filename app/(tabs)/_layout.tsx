@@ -7,7 +7,7 @@ const TabLayout = () => {
   const segments = useSegments() as string[];
   const theme = useTheme();
   const currentPage = segments[segments.length - 1];
-  const pagesToHideTabBar = ['search', 'details', 'profile-edit'];
+  const pagesToHideTabBar = ['search', 'buslist', 'profile-edit'];
   return (
     <Tabs
         screenOptions={{
