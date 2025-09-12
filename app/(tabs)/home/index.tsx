@@ -69,7 +69,6 @@ const Home = () => {
 
 
 const formatDate = (dateString: string) => {
-  console.log("laxman...",dateString)
   const date = parseISO(dateString); // parse "2025-07-30"
   return format(date, "EEE d-MMM");  // Mon 1-Sep
 };
@@ -231,7 +230,6 @@ const onSearchBusesPress = async () => {
 
         <Calendar
           onDayPress={(day) => {
-            console.log('selected day', day.dateString);
             // Save selected date to state
             // setSelectedDate(day.dateString)
             let formattedDate = formatDate(day.dateString);
