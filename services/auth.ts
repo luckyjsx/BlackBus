@@ -86,7 +86,7 @@ export async function loginUserWithGoogle() {
     }
 
     const backendResponse = await api.post<LoginResponse>("/auth/google", { idToken });
-    console.log("Backend Google Auth Response:", backendResponse.data);
+    
 
     return backendResponse.data;
 
@@ -114,3 +114,4 @@ export async function loginUserWithGoogle() {
     return null;
   }
 }
+
